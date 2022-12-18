@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Dimensions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import BaseScreen from '../../common/BaseScreen';
@@ -20,11 +19,11 @@ import {
 } from '../../common/commonFunction';
 import TaskIcon from '../../common/TaskIcon';
 import {editTask,deleteTask} from '../../actions';
+import constants from '../../common/constants';
 import {connect} from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const EditTask = ({navigation, route, editTask,deleteTask,loading}) => {
-  const height = Dimensions.get('screen').height;
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [taskName, setTaskName] = useState(null);
@@ -35,8 +34,7 @@ const EditTask = ({navigation, route, editTask,deleteTask,loading}) => {
   const item = route.params.item;
 
   const fields = [];
-  const statusName = ['To do', 'In progress', 'Testing', 'Done'];
-  for (let i = 1; i <= statusName.length; i++) {
+  for (let i = 1; i <= constants.statusName.length; i++) {
     fields.push(
       <TouchableOpacity
         onPress={() => {
@@ -63,7 +61,7 @@ const EditTask = ({navigation, route, editTask,deleteTask,loading}) => {
             color: getIconBgColor(i),
             fontWeight: '500',
           }}>
-          {statusName[i - 1]}
+          {constants.statusName[i - 1]}
         </Text>
       </TouchableOpacity>,
     );

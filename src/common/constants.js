@@ -16,5 +16,6 @@ export default {
     AuthScreen:'Auth',
     ChangePasswordScreen:'ChangePassword',
     successStatusCode:[200,201],
-    errorStatusCodeWithResponse:[400,404,401]
+    errorStatusCodeWithResponse:[400,404,401],
+    statusName: ['To do', 'In progress', 'Testing', 'Done']
 }

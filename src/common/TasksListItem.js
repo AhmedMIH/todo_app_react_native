@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import colors from './colors';
+import constants from './constants';
 import TaskIcon from './TaskIcon';
 import {getIconBgColor, getIconBgColorOpacity, geticonUrl} from './commonFunction';
 import Button from './button';
@@ -21,11 +22,9 @@ const TasksListItem = ({
   onEditButtonPress,
 }) => {
   const [modalVisiable, setModalVisiable] = useState(false);
-  const statusNum = 4;
   const [taskState, setTaskState] = useState(item.state);
   const fields = [];
-  const statusName = ['To do', 'In progress', 'Testing', 'Done'];
-  for (let i = 1; i <= statusNum; i++) {
+  for (let i = 1; i <= constants.statusName.length; i++) {
     fields.push(
       <TouchableOpacity
         onPress={() => {
@@ -52,7 +51,7 @@ const TasksListItem = ({
             color: getIconBgColor(i),
             fontWeight: '500',
           }}>
-          {statusName[i - 1]}
+          {constants.statusName[i - 1]}
         </Text>
       </TouchableOpacity>,
     );
