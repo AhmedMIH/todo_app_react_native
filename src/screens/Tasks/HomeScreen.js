@@ -102,12 +102,14 @@ const HomeScreen = ({navigation, getTasks,deleteTask,editTask ,loading,tasks}) =
             <View
               style={{
                 flex: 1,
+                height:600,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
               <Text
                 style={{
                   textAlign: 'center',
+                  fontSize:20
                 }}>{`No Task yet\nClick + to add new task`}</Text>
             </View>
           )}
@@ -138,13 +140,15 @@ const HomeScreen = ({navigation, getTasks,deleteTask,editTask ,loading,tasks}) =
             <View
               style={{
                 flex: 1,
+                height:600,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
               <Text
                 style={{
+                  fontSize:20,
                   textAlign: 'center',
-                }}>{`No Task yet\nClick + to add new task`}</Text>
+                }}>{`you dont have any ${tabHeaders[selectedTab].title} tasks\nClick + to add new task`}</Text>
             </View>
           )}
         />
