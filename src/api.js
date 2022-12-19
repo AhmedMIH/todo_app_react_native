@@ -1,7 +1,7 @@
 import {getToken} from './common/commonFunction';
 
 export default {
-  serverUrl: 'https://dbe5-41-42-73-104.ngrok.io',
+  serverUrl: 'https://f1f1-41-42-138-122.ngrok.io',
 
   handleErrors(err, params) {
     console.log(err, params);
@@ -60,14 +60,13 @@ export default {
       });
   },
 
-  async getTasks(params) {
+  async getTasks() {
     const token = await getToken();
     return fetch(`${this.serverUrl}/todos`, {
       method: 'get',
       headers: new Headers({
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-        Accept: 'application/json',
       }),
     })
       .then(response => {

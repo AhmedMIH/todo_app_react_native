@@ -1,3 +1,4 @@
+import {AsyncStorage} from 'react-native';
 import api from '../api';
 import constants from '../common/constants';
 import {
@@ -62,13 +63,20 @@ export function getTasks() {
     dispatch({
       type: Get_Tasks_Start,
     });
+    const oldetag = await AsyncStorage.getItem(constants.TASKS_ETag);
     let response = await api.getTasks(),
-      responseJson;
+      responseJson,
+      etag;
     if (response) {
       switch (response.status) {
         case 200:
-          responseJson = await response.json();
-          dispatch(handleGetTasksSuccess(responseJson));
+          etag = response.headers.get('etag');
+          if (etag == oldetag || etag == null) {
+            await getTasksFromCach(dispatch);
+          } else {
+            responseJson = await response.json();
+            dispatch(handleGetTasksSuccess(responseJson));
+          }
           break;
         case 201:
           responseJson = await response.json();
@@ -76,29 +84,44 @@ export function getTasks() {
           break;
         case 400:
           responseJson = await response.json();
-
-          dispatch(handleGetTasksError(responseJson, navigation));
+          dispatch(handleGetTasksError(responseJson));
           break;
         case 401:
           responseJson = await response.json();
-
-          dispatch(handleGetTasksError(responseJson, navigation));
+          dispatch(handleGetTasksError(responseJson));
           break;
         case 500:
           responseJson = await response.json();
-
-          dispatch(handleGetTasksError(responseJson, navigation));
+          dispatch(handleGetTasksError(responseJson));
           break;
         default:
           responseJson = await response.json();
-
-          dispatch(handleGetTasksError(responseJson, navigation));
+          dispatch(handleGetTasksError(responseJson));
       }
     }
   };
 }
 
-handleGetTasksSuccess = res => {
+getTasksFromCach = async dispatch => {
+  let tasksString = await AsyncStorage.getItem(constants.CACHEDTASK);
+  if (tasksString == null) {
+    await AsyncStorage.removeItem(constants.TASKS_ETag);
+    dispatch(getTasks());
+  }
+  tasksArray = JSON.parse(tasksString);
+  dispatch({
+    type: Get_Tasks_Sucess,
+    tasks: tasksArray,
+  });
+};
+
+handleGetTasksSuccess = (res, etag) => {
+  AsyncStorage.setItem(constants.TASKS_ETag, etag);
+  const stringTodos = JSON.stringify(res.todos);
+  AsyncStorage.setItem(constants.CACHEDTASK, stringTodos)
+    .catch(error => {
+      console.log(error);
+    });
   return {
     type: Get_Tasks_Sucess,
     tasks: res.todos,

@@ -7,6 +7,8 @@ export default {
     NAME_KEY:"name",
     EMAIL_KEY:"email",
     TOKEN_KEY:"token",
+    TASKS_ETag:'ETag',
+    CACHEDTASK:'tasks',
     HomeScreen:'Main',
     AddTaskScreen:'AddTask',
     EditTaskScreen:'EditTask',
